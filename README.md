@@ -33,7 +33,7 @@ The included samples do not cover all SAP IoT apis and functionalities.
 # Support and Contributing
 Please use our [community](https://answers.sap.com/tags/73554900100800002247) for questions and answers on the sample code.
 
-If you have found a material issue with the example please create an [issue](https://github.com/SAP-samples/mta-job-scheduler/issues) in this github repo.
+If you have found a material issue with the example please create an [issue](https://github.com/SAP-samples/sap-iot-samples/issues) in this GitHub repo.
 
 Please feel free to put in a pull request and give us some time to review and respond.
 
