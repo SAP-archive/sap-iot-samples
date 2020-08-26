@@ -1,0 +1,804 @@
+{
+	"info": {
+		"_postman_id": "89249d3e-db60-4ce0-ba35-d18f3ce5962f",
+		"name": "managing application and device model",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get oauth token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f6795cbb-41fe-43d2-9d05-cb30ee9f225b",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"access_token\", data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{clientid}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{clientsecret}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://{{tenant}}.authentication.{{landscape}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{tenant}}",
+						"authentication",
+						"{{landscape}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of sensortypes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0f8ac780-21ff-468e-ab7a-84248e305f8c",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"sensortypeid\", data[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://iot-device-connectivity{{apppostfix2}}.cfapps.{{landscape}}/api/v1/sensorTypes/",
+					"protocol": "https",
+					"host": [
+						"iot-device-connectivity{{apppostfix2}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sensorTypes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete last seen sensortype",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://iot-device-connectivity{{apppostfix2}}.cfapps.{{landscape}}/api/v1/sensorTypes/{{sensortypeid}}",
+					"protocol": "https",
+					"host": [
+						"iot-device-connectivity{{apppostfix2}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sensorTypes",
+						"{{sensortypeid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of devices",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2c8edc6-f5b8-4025-831e-db466ef28393",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"if(data.length > 0)",
+							"    postman.setEnvironmentVariable(\"deviceid\", data[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://iot-device-connectivity{{apppostfix2}}.cfapps.{{landscape}}/api/v1/devices",
+					"protocol": "https",
+					"host": [
+						"iot-device-connectivity{{apppostfix2}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete last seen device",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://iot-device-connectivity{{apppostfix2}}.cfapps.{{landscape}}/api/v1/devices/{{deviceid}}",
+					"protocol": "https",
+					"host": [
+						"iot-device-connectivity{{apppostfix2}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"devices",
+						"{{deviceid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of packages",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://config-package-sap{{apppostfix}}.cfapps.{{landscape}}/Package/v1/Packages?$format=json",
+					"protocol": "https",
+					"host": [
+						"config-package-sap{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Package",
+						"v1",
+						"Packages"
+					],
+					"query": [
+						{
+							"key": "$format",
+							"value": "json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new package",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "660567c2-96a2-456e-b6f4-e8cfa62c26c0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Descriptions\": [{\n\t\t\"Description\": \"boxes\",\n\t\t\"LanguageCode\": \"en\"}],\n\t\"Name\": \"iot.sandbox.boxes\",\n\t\"Scope\": \"private\"\n}"
+				},
+				"url": {
+					"raw": "https://config-package-sap{{apppostfix}}.cfapps.{{landscape}}/Package/v1/Packages",
+					"protocol": "https",
+					"host": [
+						"config-package-sap{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Package",
+						"v1",
+						"Packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of things",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "79bd1af7-5e20-46e2-9c84-2f442387ea21",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"thingid\", data.value[0]._id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://appiot-mds{{apppostfix}}.cfapps.{{landscape}}/Things",
+					"protocol": "https",
+					"host": [
+						"appiot-mds{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Things"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete last seen thing",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://appiot-mds{{apppostfix}}.cfapps.{{landscape}}/Things({{thingid}})",
+					"protocol": "https",
+					"host": [
+						"appiot-mds{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Things({{thingid}})"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of mappings ",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tm-data-mapping{{apppostfix}}.cfapps.{{landscape}}/v1/Mappings/mappingIds?thingTypeId=iot.trainingf954d.com.sap.silo9959:silo_type_1",
+					"protocol": "https",
+					"host": [
+						"tm-data-mapping{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"v1",
+						"Mappings",
+						"mappingIds"
+					],
+					"query": [
+						{
+							"key": "thingTypeId",
+							"value": "iot.trainingf954d.com.sap.silo9959:silo_type_1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new property set",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "660567c2-96a2-456e-b6f4-e8cfa62c26c0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"iot.sandbox.boxes:env\",\n    \"PackageName\": \"iot.sandbox.boxes\",\n    \"DataCategory\": \"TimeSeriesData\",\n    \"Descriptions\": [\n        {\n            \"LanguageCode\": \"en\",\n            \"Description\": \"env\"\n        }\n    ],\n    \"Properties\": [\n        {\n            \"Name\": \"temp\",\n            \"Type\": \"NumericFlexible\",\n            \"UnitOfMeasure\": \"\",\n            \"PropertyLength\": \"\",\n            \"QualityCode\": \"0\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\"\n                }\n            ],\n            \"Operation\": \"ADD\",\n            \"Annotations\": []\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://config-thing-sap{{apppostfix}}.cfapps.{{landscape}}/ThingConfiguration/v1/Packages('iot.sandbox.boxes')/PropertySetTypes",
+					"protocol": "https",
+					"host": [
+						"config-thing-sap{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v1",
+						"Packages('iot.sandbox.boxes')",
+						"PropertySetTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get credentials",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://tm-data-mapping{{apppostfix}}.cfapps.{{landscape}}/v1/credentials",
+					"protocol": "https",
+					"host": [
+						"tm-data-mapping{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"v1",
+						"credentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete credentials",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "If-Match",
+						"value": "1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tm-data-mapping{{apppostfix}}.cfapps.{{landscape}}/v1/credentials",
+					"protocol": "https",
+					"host": [
+						"tm-data-mapping{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"v1",
+						"credentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create credentials",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user\": \"d039026\",\n    \"password\": \"Mcb22test\",\n    \"host\": \"afdd38ab-eb7c-4717-a639-b2ba4891bf69.eu10.cp.iot.sap\",\n    \"instanceId\": \"afdd38ab-eb7c-4717-a639-b2ba4891bf69\",\n    \"iotTenantId\": \"341030215\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://tm-data-mapping{{apppostfix}}.cfapps.{{landscape}}/v1/credentials",
+					"protocol": "https",
+					"host": [
+						"tm-data-mapping{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"v1",
+						"credentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create new thing and sensor type",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "660567c2-96a2-456e-b6f4-e8cfa62c26c0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Descriptions\": [\n        {\n            \"Description\": \"box\",\n            \"LanguageCode\": \"en\"\n        }\n    ],\n    \"Name\": \"iot.sandbox.boxes:box\",\n    \"PackageName\": \"iot.sandbox.boxes\",\n    \"PropertySets\": [\n        {\n            \"Name\": \"env\",\n            \"PropertySetType\": \"iot.sandbox.boxes:env\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Temperature  properties\"\n                }\n            ]\n        }\n    ],\n    \"SensorTypeMappings\": [\n        {\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"greenfield\"\n                }\n            ],\n            \"Name\": \"greenfield\",\n            \"MeasureMappings\": [\n                {\n                    \"SensorTypeName\": \"box\",\n                    \"CapabilityName\": \"env\",\n                    \"CapabilityPropertyId\": \"temp\",\n                    \"PropertySetTypeId\": \"iot.sandbox.boxes:env\",\n                    \"NamedPropertySetTypeId\": \"env\",\n                    \"NamedPropertySetTypePropertyId\": \"temp\"\n                }\n            ]\n        }\n    ],\n    \"SensorTypes\": [\n        {\n            \"Name\": \"box\",\n            \"SensorTypeCapabilities\": [\n                {\n                    \"Capability\": {\n                        \"Name\": \"env\",\n                        \"Properties\": [\n                            {\n                                \"Name\": \"temp\",\n                                \"DataType\": \"Double\",\n                                \"UnitOfMeasure\": \"C\"\n                            }\n                        ]\n                    },\n                    \"Type\": \"measure\"\n                }\n            ]\n        }\n    ]\n}"
+				},
+				"url": {
+					"raw": "https://config-thing-sap{{apppostfix}}.cfapps.{{landscape}}/ThingConfiguration/v1/Packages('iot.sandbox.boxes')/ThingTypes",
+					"protocol": "https",
+					"host": [
+						"config-thing-sap{{apppostfix}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v1",
+						"Packages('iot.sandbox.boxes')",
+						"ThingTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get list of gateways with filter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2c8edc6-f5b8-4025-831e-db466ef28393",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"deviceid\", data[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "accessToken",
+							"value": "{{access_token}}",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://iot-device-connectivity{{apppostfix2}}.cfapps.{{landscape}}/api/v1/gateways?filter=alternateId eq 'GATEWAY_CLOUD_MQTT'",
+					"protocol": "https",
+					"host": [
+						"iot-device-connectivity{{apppostfix2}}",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"gateways"
+					],
+					"query": [
+						{
+							"key": "filter",
+							"value": "alternateId eq 'GATEWAY_CLOUD_MQTT'"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

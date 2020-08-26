@@ -1,0 +1,5 @@
+iot-bootstrap-scripts/node_modules
+iot-bootstrap-scripts/package-lock.json
+iot-bootstrap-scripts/certificates
+*.zip
+iot-bootstrap-scripts/default-env.json

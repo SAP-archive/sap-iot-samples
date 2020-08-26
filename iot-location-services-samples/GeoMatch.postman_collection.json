@@ -1,0 +1,454 @@
+{
+	"info": {
+		"_postman_id": "d4421409-eb12-4323-8ffe-344274b8ee2e",
+		"name": "GeoMatch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: GET OAuth Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e0eb4ea-e796-4693-a434-805a6374d120",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"LoginTokenT1\", \"Bearer \" + data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{tenant_name}}.{{uaadomain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{tenant_name}}",
+						"{{uaadomain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3.1: Create point space",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bc351796-d610-4596-bada-d7bcf9231aec",
+						"exec": [
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
+							"for (var i = 0; i < resHeaders.length; i++) {\r",
+							"    if (resHeaders[i].key == \"Locations\") {\r",
+							"        postman.setEnvironmentVariable(\"point_space_id\", resHeaders[i].value.split(\"[\")[1].split(\"/Spaces/\")[1].split(\"]\")[0]);    \r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{\r\n\t\"SpaceName\": \"Healthcare 0000\",\r\n\t\"Geometry\": {\r\n\t\t\"Type\": \"Point\"\r\n\t},\r\n\t\"Description\": \"Healthcare Point Space for 0000\",\r\n\t\"ParentSpaceId\": null\r\n}]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/Spaces",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-runtime",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geolocation",
+						"v1",
+						"Spaces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3.2: Read point space",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/Spaces/{{point_space_id}}",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-runtime",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geolocation",
+						"v1",
+						"Spaces",
+						"{{point_space_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4.1: Create a Business Location",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "eabe1284-818e-4887-9ae0-ececa0e5e727",
+						"exec": [
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
+							"for (var i = 0; i < resHeaders.length; i++) {\r",
+							"    if (resHeaders[i].key == \"Locations\") {\r",
+							"        postman.setEnvironmentVariable(\"point_geolocation_id\", resHeaders[i].value.split(\"[\")[1].split(\"/GeoLocations/\")[1].split(\"]\")[0]);    \r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "        [{\r\n            \"Type\": \"Feature\",\r\n            \"Properties\": {\r\n                \"ParentGeoLocationId\": null,\r\n                \"ExternalId\": null,\r\n                \"SpaceId\": \"{{point_space_id}}\",\r\n                \"GeoLocationName\": \"University Medical Center Heidelberg POI 00\",\r\n                \"BusinessObjectType\": \"Hospital\",\r\n                \"BusinessObjectGuid\": \"{{BusinessObjectGuid}}\",\r\n                \"BusinessObjectDisplayName\": \"University Medical Center Heidelberg 00\",\r\n                \"IsGeoFence\": false,\r\n                \"HasChild\": false,\r\n                \"Descriptions\": [\r\n                    {\r\n                        \"Locale\": \"en\",\r\n                        \"Label\": \"University Medical Center Heidelberg 00\"\r\n                    }\r\n                ],\r\n                \"Addresses\": [\r\n                    {\r\n                        \"Locale\": \"en\",\r\n                        \"Address\": {\r\n                            \"House\": \"672\",\r\n                            \"Street\": \"Im Neuenheimer Feld\",\r\n                            \"CityDistrict\": null,\r\n                            \"City\": \"Heidelberg\",\r\n                            \"District\": null,\r\n                            \"RegionCode\": \"BW\",\r\n                            \"Region\": \"Baden-Wurttemberg\",\r\n                            \"CountryCode\": \"DE\",\r\n                            \"Country\": \"Germany\",\r\n                            \"PostalCode\": \"69120\"\r\n                        }\r\n                    }\r\n                ]\r\n            },\r\n            \"Geometry\": {\r\n                \"type\": \"Point\",\r\n                \"coordinates\": [\r\n                    {{longitude}},\r\n                    {{latitude}}\r\n                ]\r\n            },\r\n            \"SensitivityCategory\": null\r\n        }]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-runtime",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geolocation",
+						"v1",
+						"GeoLocations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4.2: Read Business Location",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations/{{point_geolocation_id}}",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-runtime",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geolocation",
+						"v1",
+						"GeoLocations",
+						"{{point_geolocation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Read GeoMatchRadiusSettings Configuration",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geomatch-service",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"geomatch",
+						"Configuration",
+						"GeoMatchRadiusSettings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6.1: GET ThingID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"url": {
+					"raw": "https://appiot-mds.cfapps.{{landscape}}/Things?$filter=_thingType eq {{ThingType}}",
+					"protocol": "https",
+					"host": [
+						"appiot-mds",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Things"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "_thingType eq {{ThingType}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6.2: Manual Geomatch Assignment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "34079cac-4c22-46e6-8ba4-827570798965",
+						"exec": [
+							"var currentutctimestamp = new Date().getTime();",
+							"",
+							"postman.setEnvironmentVariable(\"requestutctimestamp\", currentutctimestamp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n    \"RequestType\": \"MANUAL_ASSIGN\",\n    \"ThingID\": \"{{thing_id}}\",\n    \"ThingDisplayName\": \"{{thing_displayName}}\",\n    \"IgnoreStatuses\": \"\",\n    \"BusinessObjectType\": \"Hospital\",\n    \"BusinessObjectGUID\": \"{{BusinessObjectGuid}}\",\n    \"ThingLatitude\": {{latitude}},\n    \"ThingLongitude\":  {{longitude}},\n    \"RequestTime\": {{requestutctimestamp}},\n    \"SensitivityCategory\": \"NONE\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/request",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geomatch-service",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"geomatch",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Latest Geo-Associations for one Thing",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geomatch-association-odata.cfapps.{{landscape}}/api/v1/geomatch/odata/LatestGeoMatchAssociationByThings?thingId={{thing_id}}",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geomatch-association-odata",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"geomatch",
+						"odata",
+						"LatestGeoMatchAssociationByThings"
+					],
+					"query": [
+						{
+							"key": "thingId",
+							"value": "{{thing_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

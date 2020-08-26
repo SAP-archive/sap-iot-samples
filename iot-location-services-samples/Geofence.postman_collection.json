@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "c568f0d4-65e8-4215-be21-af2507073650",
+		"name": "Geofence",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 6.1: GET OAuth Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "21134e0a-fbab-4b3f-b4c0-457496c78999",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"LoginTokenT1\", \"Bearer \" + data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"urlencoded": {}
+					}
+				},
+				"url": {
+					"raw": "https://{{tenant_name}}.{{uaadomain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{tenant_name}}",
+						"{{uaadomain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6.2: GET ThingID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"url": {
+					"raw": "https://appiot-mds.cfapps.{{landscape}}/Things?$filter=_thingType eq {{ThingType}}",
+					"protocol": "https",
+					"host": [
+						"appiot-mds",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"Things"
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "_thingType eq {{ThingType}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6.3: GET GeofenceId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "51f14465-316a-41d6-ae7b-18acf790d730",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"GeofenceID\", data.value[0].Properties.GeoLocationId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations?GeoLocationName={{GeolocationName}}",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-runtime",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geolocation",
+						"v1",
+						"GeoLocations"
+					],
+					"query": [
+						{
+							"key": "GeoLocationName",
+							"value": "{{GeolocationName}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6.4: Create geofence assignments",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8f059c29-d5a8-41f8-bbcf-897899074aff",
+						"exec": [
+							"var furtureutctimestamp = new Date();\r",
+							"furtureutctimestamp.setHours(furtureutctimestamp.getHours()+14);\r",
+							"furtureutctimestamp = furtureutctimestamp.toISOString();\r",
+							"postman.setEnvironmentVariable(\"furtureutctimestamp\", furtureutctimestamp);\r",
+							"\r",
+							"\r",
+							"var currentutctimestamp = new Date();\r",
+							"//currentutctimestamp.setMinutes(currentutctimestamp.getMinutes()+2);\r",
+							"currentutctimestamp = currentutctimestamp.toISOString();\r",
+							"postman.setEnvironmentVariable(\"currentutctimestamp\", currentutctimestamp);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[{ \r\n    \"thingId\": \"{{thing_id}}\", \r\n    \"fenceId\": \"{{GeofenceID}}\", \r\n    \"fromTime\": \"{{currentutctimestamp}}\", \r\n    \"toTime\":   \"{{furtureutctimestamp}}\"\r\n}]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geolocation-geofence.cfapps.{{landscape}}/geofence/v1/GeoFenceAssignments",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geolocation-geofence",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"geofence",
+						"v1",
+						"GeoFenceAssignments"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

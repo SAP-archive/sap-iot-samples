@@ -1,0 +1,1443 @@
+{
+	"info": {
+		"_postman_id": "ddc86043-418b-4485-add8-a67a885f0441",
+		"name": "SAC Training - 22 Jun 2020",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step A: GET JWT Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06927fa1-db46-4fe6-8230-4e681617fce9",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"LoginTokenT1\", \"Bearer \" + data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"urlencoded": {}
+					}
+				},
+				"url": {
+					"raw": "https://{{tenant_name}}.{{uaadomain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{tenant_name}}",
+						"{{uaadomain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pre 1: Fetch Tenant Name Space - Pick Package ID from Payload",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0402e63c-6bfe-4b93-9ad5-09e3632840ae",
+						"exec": [
+							"var respCode = 201;",
+							"var respMinLength = -1;",
+							"var respMaxLength = -1;",
+							"var respTime = globals.TimeoutInstant;",
+							"",
+							"eval(globals.BasicTests);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n  \"Scope\": \"private\",\n  \"Description\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n  \"Status\": \"Active\",\n  \"Descriptions\":[{\n\t\"Description\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n\t\"LanguageCode\": \"en\"\n  }]\n}",
+					"options": {}
+				},
+				"url": {
+					"raw": "https://business-partner.cfapps.eu10.hana.ondemand.com/Tenants",
+					"protocol": "https",
+					"host": [
+						"business-partner",
+						"cfapps",
+						"eu10",
+						"hana",
+						"ondemand",
+						"com"
+					],
+					"path": [
+						"Tenants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pre 2: Fetch Object Group ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{AuthURI}}/ObjectGroups/?$filter=objectGroupParentID eq null&$format=json",
+					"host": [
+						"{{AuthURI}}"
+					],
+					"path": [
+						"ObjectGroups",
+						""
+					],
+					"query": [
+						{
+							"key": "$filter",
+							"value": "objectGroupParentID eq null"
+						},
+						{
+							"key": "$format",
+							"value": "json"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step B: Post a new package",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d828dd11-7d84-4a45-bda6-3300657b6c95",
+						"exec": [
+							"var respCode = 201;",
+							"var respMinLength = -1;",
+							"var respMaxLength = -1;",
+							"var respTime = globals.TimeoutInstant;",
+							"",
+							"eval(globals.BasicTests);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n  \"Scope\": \"private\",\n  \"Description\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n  \"Status\": \"Active\",\n  \"Descriptions\":[{\n\t\"Description\": \"{{TenantPackageNamespace}}.{{PackageName}}\",\n\t\"LanguageCode\": \"en\"\n  }]\n}",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{PACKAGE_HOST}}/Package/v1/Packages",
+					"host": [
+						"{{PACKAGE_HOST}}"
+					],
+					"path": [
+						"Package",
+						"v1",
+						"Packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step C: Create Master Data PST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"Name\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_process_data\",\r\n  \"Description\": \"Silo Process Data\",\r\n  \"DataCategory\": \"MasterData\",\r\n  \"Descriptions\": [{\r\n    \"LanguageCode\": \"en\",\r\n    \"Description\": \"Silo Process Data\"\r\n  }],\r\n  \"Properties\": [\r\n  \t{\r\n    \"Name\": \"EQUI\",\r\n    \"Type\": \"String\",\r\n    \"PropertyLength\": \"127\"\r\n    },\r\n    {\r\n    \"Name\": \"HANU\",\r\n    \"Type\": \"String\",\r\n    \"PropertyLength\": \"127\"\r\n    }\r\n  ]\r\n}",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ConfigThingURI}}/ThingConfiguration/v1/Packages('{{TenantPackageNamespace}}.{{PackageName}}')/PropertySetTypes",
+					"host": [
+						"{{ConfigThingURI}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v1",
+						"Packages('{{TenantPackageNamespace}}.{{PackageName}}')",
+						"PropertySetTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step D: Create Timeseries PST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_status\",\n  \"Description\": \"Silo Status\",\n  \"DataCategory\": \"TimeSeriesData\",\n  \"Descriptions\": [\n    {\n      \"LanguageCode\": \"en\",\n      \"Description\": \"Silo Status\"\n    }\n  ],\n  \"Properties\": [\n    {\n      \"Name\": \"fill_level\",\n      \"Type\": \"Numeric\",\n      \"PropertyLength\": \"10,7\"\n    },\n    {\n      \"Name\": \"humidity\",\n      \"Type\": \"Numeric\",\n      \"PropertyLength\": \"10,7\"\n    },\n    {\n      \"Name\": \"latitude\",\n      \"Type\": \"Numeric\",\n      \"PropertyLength\": \"10,7\"\n    },\n    {\n      \"Name\": \"longitude\",\n      \"Type\": \"Numeric\",\n      \"PropertyLength\": \"10,7\"\n    },\n    {\n      \"Name\": \"temperature\",\n      \"Type\": \"Numeric\",\n      \"PropertyLength\": \"10,7\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ConfigThingURI}}/ThingConfiguration/v1/Packages('{{TenantPackageNamespace}}.{{PackageName}}')/PropertySetTypes",
+					"host": [
+						"{{ConfigThingURI}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v1",
+						"Packages('{{TenantPackageNamespace}}.{{PackageName}}')",
+						"PropertySetTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step E: Create thing type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n    \"Descriptions\": [\n        {\n            \"LanguageCode\": \"en\",\n            \"Description\": \"Silo Type\"\n        }\n    ],\n    \"PropertySets\": [\n            {\n            \"Name\": \"silo_process_data\",\n            \"PropertySetType\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_process_data\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Silo Process Data\"\n                }\n            ]\n        },\n        {\n            \"Name\": \"silo_status\",\n            \"PropertySetType\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_status\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Silo Status\"\n                }\n            ]\n        }\n    ]\n}",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ConfigThingURI}}/ThingConfiguration/v2/Packages('{{TenantPackageNamespace}}.{{PackageName}}')/ThingTypes",
+					"host": [
+						"{{ConfigThingURI}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v2",
+						"Packages('{{TenantPackageNamespace}}.{{PackageName}}')",
+						"ThingTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step F: Get thing type",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ConfigThingURI}}/ThingConfiguration/v2/Packages('{{TenantPackageNamespace}}.{{PackageName}}')/ThingTypes",
+					"host": [
+						"{{ConfigThingURI}}"
+					],
+					"path": [
+						"ThingConfiguration",
+						"v2",
+						"Packages('{{TenantPackageNamespace}}.{{PackageName}}')",
+						"ThingTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step G: Onboard Silo1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "447c81c9-77e3-4f39-a340-d104884d92a9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ea901fcc-bc81-49a6-bed7-ef44de019c19",
+						"exec": [
+							"",
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));",
+							"",
+							"for (var i = 0; i < resHeaders.length; i++) {",
+							"    if (resHeaders[i].key == \"Location\") {",
+							"        console.log(resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"        postman.setEnvironmentVariable(\"TR11\", resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_externalId\": \"{{DeviceId}}\",\n\t\"_name\": \"{{DeviceId}}\",\n\t\"_description\": {\n\t\t\"en\": \"EQUI00_01\"\n\t},\n\t\"_thingType\": [\"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}\"],\n\t\"_objectGroup\": \"{{ObjectGroupId}}\"\n}\n",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step H: Onboard Silo2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2c821718-a22a-46b9-8a4a-93009d10c2d5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd18cebf-6383-4ae3-95b0-f19007857400",
+						"exec": [
+							"",
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));",
+							"",
+							"for (var i = 0; i < resHeaders.length; i++) {",
+							"    if (resHeaders[i].key == \"Location\") {",
+							"        console.log(resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"        postman.setEnvironmentVariable(\"TR22\", resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_externalId\": \"{{DeviceId2}}\",\n\t\"_name\": \"{{DeviceId2}}\",\n\t\"_description\": {\n\t\t\"en\": \"EQUI00_02\"\n\t},\n\t\"_thingType\": [\"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}\"],\n\t\"_objectGroup\": \"{{ObjectGroupId}}\"\n}\n",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step I: Onboard Silo3",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0c141046-bd4e-4f8d-96f5-4361a11987ff",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a5461191-c3cb-4caf-95e5-805f567385d6",
+						"exec": [
+							"",
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));",
+							"",
+							"for (var i = 0; i < resHeaders.length; i++) {",
+							"    if (resHeaders[i].key == \"Location\") {",
+							"        console.log(resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\") + 6).split(\"('\")[1].split(\"')\")[0]);",
+							"        postman.setEnvironmentVariable(\"TR33\", resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\") + 6).split(\"('\")[1].split(\"')\")[0]);",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_externalId\": \"{{DeviceId3}}\",\n\t\"_name\": \"{{DeviceId3}}\",\n\t\"_description\": {\n\t\t\"en\": \"EQUI00_03\"\n\t},\n\t\"_thingType\": [\"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}\"],\n\t\"_objectGroup\": \"{{ObjectGroupId}}\"\n}\n",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step J: Onboard Silo4",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "be5dabae-088c-4047-9e2a-e4368f58d1f3",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca896257-0f82-494f-85b7-93a08269ed43",
+						"exec": [
+							"",
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));",
+							"",
+							"for (var i = 0; i < resHeaders.length; i++) {",
+							"    if (resHeaders[i].key == \"Location\") {",
+							"        console.log(resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\") + 6).split(\"('\")[1].split(\"')\")[0]);",
+							"        postman.setEnvironmentVariable(\"TR44\", resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\") + 6).split(\"('\")[1].split(\"')\")[0]);",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"_externalId\": \"{{DeviceId4}}\",\n\t\"_name\": \"{{DeviceId4}}\",\n\t\"_description\": {\n\t\t\"en\": \"EQUI00_04\"\n\t},\n\t\"_thingType\": [\"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}\"],\n\t\"_objectGroup\": \"{{ObjectGroupId}}\"\n}\n",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step K: Get Thing",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bace5ab7-a181-48a2-82d5-dcdb640bf0cd",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6badf18-6f2d-4cb1-ab13-1dde34be82ea",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR11}}')",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR11}}')"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step L: Create Master  Data for Silo1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3acbca2c-9b3e-47d1-a0a8-1b6aabe3d7cc",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"value\": [\r\n    {\r\n      \"_time\": \"2020-06-14T06:11:00Z\",\r\n      \"EQUI\" : \"EQUI00_01\",\r\n\t  \"HANU\" : \"HANU5658\"\r\n    }\r\n  ]\r\n} ",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR11}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_process_data",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR11}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_process_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step M: Create Master  Data for Silo2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a9664d91-6d09-48ad-b756-a930786c0c88",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"value\": [\r\n    {\r\n      \"_time\": \"2020-06-14T06:10:00Z\",\r\n      \"EQUI\" : \"EQUI00_02\",\r\n      \"HANU\" : \"HANU4234\"\r\n    }\r\n  ]\r\n} ",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR22}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_process_data",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR22}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_process_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step N: Create Master  Data for Silo3",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c76517f0-9250-48ff-8c17-c562603019ba",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"value\": [\r\n    {\r\n      \"_time\": \"2020-06-14T06:10:00Z\",\r\n      \"EQUI\" : \"EQUI00_03\",\r\n      \"HANU\" : \"HANU7458\"\r\n    }\r\n  ]\r\n} ",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR33}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_process_data",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR33}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_process_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step O: Create Master  Data for Silo4",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c4495ac8-af28-4b72-8efc-665cf1441fff",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"value\": [\r\n    {\r\n      \"_time\": \"2020-06-14T09:14:00Z\",\r\n      \"EQUI\" : \"EQUI00_04\",\r\n\t  \"HANU\" : \"HANU5658\"\r\n    }\r\n  ]\r\n} ",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR44}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_process_data",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR44}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_process_data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step P: Create Time series  Data for Silo1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7ba9d69e-5062-43f7-9dc5-1f4a398bd58f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"value\": [\n  \t{\n      \"_time\": \"2020-06-15T07:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 15.239\n    },\n    {\n      \"_time\": \"2020-06-16T06:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 18.888889\n    },\n    {\n      \"_time\": \"2020-06-17T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 12.36,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 19.2\n    },\n    {\n      \"_time\": \"2020-06-18T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 11.2521,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 20.1\n    },\n    {\n      \"_time\": \"2020-06-19T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 10.781,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 21.2\n    },\n    {\n      \"_time\": \"2020-06-20T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 9.961,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 21.7\n    },\n    {\n      \"_time\": \"2020-06-21T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 10.7221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 22.3\n    },\n    {\n      \"_time\": \"2020-06-22T06:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 12.22876,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 23.1\n    },\n    {\n      \"_time\": \"2020-06-22T08:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 23.5\n    },\n    {\n      \"_time\": \"2020-06-23T09:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 11.223,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 24.7\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR11}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_status",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR11}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step Q: Create Time series  Data for Silo2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cece77cf-6b4e-49b7-a602-8b67305e670b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"value\": [\n    {\n      \"_time\": \"2020-06-15T08:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 12.589\n    },\n    {\n      \"_time\": \"2020-06-16T05:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.6\n    },\n    {\n      \"_time\": \"2020-06-17T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 12.36,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.7\n    },\n    {\n      \"_time\": \"2020-06-18T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 11.2521,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.54\n    },\n    {\n      \"_time\": \"2020-06-19T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 10.781,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.34\n    },\n    {\n      \"_time\": \"2020-06-20T07:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 9.961,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.67\n    },\n    {\n      \"_time\": \"2020-06-21T06:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 10.7221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":11.78\n    },\n    {\n      \"_time\": \"2020-06-22T04:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 12.22876,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":11.92\n    },\n    {\n      \"_time\": \"2020-06-22T06:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.95\n    },\n    {\n      \"_time\": \"2020-06-23T04:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 11.223,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.67\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR22}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_status",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR22}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step R: Create Time series  Data for Silo3",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a22bad8-b1ee-4778-8375-69ec15f97f8e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"value\": [\n   {\n      \"_time\": \"2020-06-15T03:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 13.172\n    },\n    {\n      \"_time\": \"2020-06-16T05:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 12.6\n    },\n    {\n      \"_time\": \"2020-06-17T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 12.36,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 10.7\n    },\n    {\n      \"_time\": \"2020-06-18T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 11.2521,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.54\n    },\n    {\n      \"_time\": \"2020-06-19T08:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 10.781,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 12.34\n    },\n    {\n      \"_time\": \"2020-06-20T06:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 9.961,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 11.67\n    },\n    {\n      \"_time\": \"2020-06-21T05:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 10.7221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":12.78\n    },\n    {\n      \"_time\": \"2020-06-22T03:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 12.22876,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":11.92\n    },\n    {\n      \"_time\": \"2020-06-22T05:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 9.95\n    },\n    {\n      \"_time\": \"2020-06-23T03:02:00Z\",\n      \"fill_level\": 23.334,\n      \"humidity\": 11.223,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 12.67\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR33}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_status",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR33}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step S: Create Time series  Data for Silo4",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "60aa9334-3cf8-4eee-8d73-e41dba8e0387",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"value\": [\n    {\n      \"_time\": \"2020-06-15T03:02:00Z\",\n      \"fill_level\": 22.221,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 10.142\n    },\n    {\n      \"_time\": \"2020-06-16T04:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 12.6\n    },\n    {\n      \"_time\": \"2020-06-17T07:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 12.36,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 13.7\n    },\n    {\n      \"_time\": \"2020-06-18T07:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 11.2521,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 14.54\n    },\n    {\n      \"_time\": \"2020-06-19T07:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 10.781,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 15.34\n    },\n    {\n      \"_time\": \"2020-06-20T05:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 9.961,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 16.67\n    },\n    {\n      \"_time\": \"2020-06-21T04:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 10.7221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":17.78\n    },\n    {\n      \"_time\": \"2020-06-22T02:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 12.22876,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\":18.92\n    },\n    {\n      \"_time\": \"2020-06-22T04:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 13.221,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 19.95\n    },\n    {\n      \"_time\": \"2020-06-23T02:02:00Z\",\n      \"fill_level\": 25.678,\n      \"humidity\": 11.223,\n      \"latitude\": 49.3211,\n      \"longitude\": 8.6470175,\n      \"temperature\": 20.67\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{ThingURI}}/Things('{{TR44}}')/{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}/silo_status",
+					"host": [
+						"{{ThingURI}}"
+					],
+					"path": [
+						"Things('{{TR44}}')",
+						"{{TenantPackageNamespace}}.{{PackageName}}:{{ThingTypeName}}",
+						"silo_status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step T: Create Data Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2480c5d6-c271-4fa1-8d85-a2d79635cf72",
+						"exec": [
+							"",
+							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));",
+							"",
+							"for (var i = 0; i < resHeaders.length; i++) {",
+							"    if (resHeaders[i].key == \"Location\") {",
+							"        console.log(resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"DataModels\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"        postman.setEnvironmentVariable(\"MDN\", resHeaders[i].value.substring(resHeaders[i].value.indexOf(\"Things\")+6).split(\"('\")[1].split(\"')\")[0]);",
+							"    }",
+							"}",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "If-Match",
+						"type": "text",
+						"value": "601CF215695A4683AFC7093D0056B9E2",
+						"disabled": true
+					},
+					{
+						"key": "SAP-Internal-Token",
+						"type": "text",
+						"value": "cxBrZl5MuFcgD-82d4nlvhQsTctbaKGNnli4GbCIXLv_yVQrM_3TYPsFLM4PZ26p",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"TrainingModelXX\",\n  \"AggregationWindow\": \"DAILY\",\n  \"TimeWindowIdentifier\": \"day\",\n  \"TimeWindowValue\": 7,\n  \"Descriptions\": [\n    {\n      \"Description\": \"Daily Silo Temperature Analysis XX\",\n      \"LanguageCode\": \"en\"\n    }\n  ],\n  \"Fields\": [\n    {\n      \"FriendlyName\": \"EQUI\",\n      \"AnalyticType\": \"Dimension\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_process_data\",\n      \"DatasetType\": \"MasterData\",\n      \"Name\": \"EQUI\"\n    },\n    {\n      \"FriendlyName\": \"HANU\",\n      \"AnalyticType\": \"Dimension\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_process_data\",\n      \"DatasetType\": \"MasterData\",\n      \"Name\": \"HANU\"\n    },\n    {\n      \"FriendlyName\": \"HumidityMAX\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"humidity\",\n      \"AggregationType\": \"MAX\"\n    },\n    {\n      \"FriendlyName\": \"HumidityMIN\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"humidity\",\n      \"AggregationType\": \"MIN\"\n    },\n    {\n      \"FriendlyName\": \"HumidityCOUNT\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"humidity\",\n      \"AggregationType\": \"COUNT\"\n    },\n    {\n      \"FriendlyName\": \"HumiditySUM\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"humidity\",\n      \"AggregationType\": \"SUM\"\n    },\n    {\n      \"FriendlyName\": \"TemperatureMAX\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"temperature\",\n      \"AggregationType\": \"MAX\"\n    },\n    {\n      \"FriendlyName\": \"TemperatureMIN\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"temperature\",\n      \"AggregationType\": \"MIN\"\n    },\n    {\n      \"FriendlyName\": \"TemperatureCOUNT\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"temperature\",\n      \"AggregationType\": \"COUNT\"\n    },\n    {\n      \"FriendlyName\": \"TemperatureSUM\",\n      \"AnalyticType\": \"Measure\",\n      \"CatalogName\": \"{{TenantPackageNamespace}}.{{PackageName}}:silo_type_1\",\n      \"CatalogType\": \"ThingType\",\n      \"DatasetName\": \"silo_status\",\n      \"DatasetType\": \"TimeSeriesData\",\n      \"Name\": \"temperature\",\n      \"AggregationType\": \"SUM\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "{{DataModellerHost}}/metadata/v1/model.svc/DataModels",
+					"host": [
+						"{{DataModellerHost}}"
+					],
+					"path": [
+						"metadata",
+						"v1",
+						"model.svc",
+						"DataModels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step U: READ Data Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b85250b-772b-47e2-843a-ce46ea0d961e",
+						"exec": [
+							"postman.setGlobalVariable(\"ETAG\",postman.getResponseHeader(\"Etag\"));",
+							"var json = JSON.parse(responseBody);",
+							" ",
+							"var model = { \"dimensions\":[],\"measures\":[]};",
+							"model.name = json.d.Name.toUpperCase();",
+							" ",
+							"if(json.d.Fields.results && json.d.Fields.results.length){",
+							"for ( var i = 0; i < json.d.Fields.results.length; i++ ) {",
+							"    var field = json.d.Fields.results[i];",
+							"    if ( field.AnalyticType === \"Dimension\") {",
+							"        model.dimensions.push(field.Name.toUpperCase());",
+							"        //model.dimensions.push(field.FriendlyName.toUpperCase());",
+							"    } else {",
+							"        model.measures.push(field.AggregationType.toUpperCase()+\":\"+field.Name.toUpperCase());",
+							"        //model.measures.push(field.AggregationType.toUpperCase()+\":\"+field.FriendlyName.toUpperCase());",
+							"    }",
+							"}",
+							"}else{",
+							"model.dimensions.push(json.d.Name.toUpperCase());",
+							"model.measures.push(json.d.AggregationWindow.toUpperCase()+\":\"+json.d.Name.toUpperCase());",
+							" ",
+							"}",
+							" ",
+							"pm.environment.set(\"inamodel\", JSON.stringify(model));",
+							" ",
+							"if(json.d.Fields.results && json.d.Fields.results.length){",
+							"var elements = \"\";",
+							"elements += visualize(\"Data Model Headers\",\"metadata\",\"Name\",\"AggregationWindow\",\"TimeWindowIdentifier\",\"TimeWindowValue\",\"Status\",\"UsageStatus\",\"LagPeriodIdentifier\",\"LagPeriodValue\");",
+							"elements += visualize(\"Fields\",\"fields\",\"FriendlyName\",\"Name\",\"CatalogType\",\"CatalogName\",\"DatasetName\",\"AnalyticType\",\"AggregationType\");",
+							" ",
+							"pm.visualizer.set(elements, {response: { \"metadata\": [json.d], \"fields\":json.d.Fields.results}});",
+							" ",
+							"function visualize(title,path) {",
+							"    var headers = \"\";",
+							"    var rows = \"\";",
+							"    if(!arguments.length){arguments.length=0};",
+							"    for ( var i = 2; i < arguments.length;i++) {",
+							"        headers += '<th style=\"border:solid 1px;padding:5px;background:#79c6f2;color:black;font-weight:bold\">'+arguments[i]+'</th>';",
+							"        rows += '<td style=\"border:solid 1px;padding:5px;\">{{'+arguments[i]+'}}</td>';",
+							"    }",
+							"    var table = '<span>'+title+'</span><table  bgcolor=\"#FFFFFF\" style=\"border:solid 1px;font-size:12px\"><tr>'+headers+\"{{#each response.\"+path+'}}<tr>'+rows+'</tr>{{/each}}</table>';",
+							"    return table;",
+							"   ",
+							"}",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "If-Match",
+						"type": "text",
+						"value": "{{ETAG}}"
+					}
+				],
+				"url": {
+					"raw": "{{DataModellerHost}}/metadata/v1/model.svc/DataModels('{{MDN}}')",
+					"host": [
+						"{{DataModellerHost}}"
+					],
+					"path": [
+						"metadata",
+						"v1",
+						"model.svc",
+						"DataModels('{{MDN}}')"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step V: Activate Data Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dad2aee2-1e45-479e-80ab-01f3ae0c2979",
+						"exec": [
+							"postman.setGlobalVariable(\"ETAG\",postman.getResponseHeader(\"Etag\") );",
+							"pm.environment.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "If-Match",
+						"type": "text",
+						"value": "{{ETAG}}"
+					},
+					{
+						"key": "",
+						"type": "text",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"Status\" : \"ACTIVE\"\n}",
+					"options": {}
+				},
+				"url": {
+					"raw": "{{DataModellerHost}}/metadata/v1/model.svc/DataModels('{{MDN}}')",
+					"host": [
+						"{{DataModellerHost}}"
+					],
+					"path": [
+						"metadata",
+						"v1",
+						"model.svc",
+						"DataModels('{{MDN}}')"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step W: READ Data Model",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5b3c92e2-c964-4ca7-9932-9eb8ba5cb73d",
+						"exec": [
+							"postman.setGlobalVariable(\"ETAG\",postman.getResponseHeader(\"Etag\"));",
+							"var json = JSON.parse(responseBody);",
+							" ",
+							"var model = { \"dimensions\":[],\"measures\":[]};",
+							"model.name = json.d.Name.toUpperCase();",
+							" ",
+							"if(json.d.Fields.results && json.d.Fields.results.length){",
+							"for ( var i = 0; i < json.d.Fields.results.length; i++ ) {",
+							"    var field = json.d.Fields.results[i];",
+							"    if ( field.AnalyticType === \"Dimension\") {",
+							"        model.dimensions.push(field.Name.toUpperCase());",
+							"        //model.dimensions.push(field.FriendlyName.toUpperCase());",
+							"    } else {",
+							"        model.measures.push(field.AggregationType.toUpperCase()+\":\"+field.Name.toUpperCase());",
+							"        //model.measures.push(field.AggregationType.toUpperCase()+\":\"+field.FriendlyName.toUpperCase());",
+							"    }",
+							"}",
+							"}else{",
+							"model.dimensions.push(json.d.Name.toUpperCase());",
+							"model.measures.push(json.d.AggregationWindow.toUpperCase()+\":\"+json.d.Name.toUpperCase());",
+							" ",
+							"}",
+							" ",
+							"pm.environment.set(\"inamodel\", JSON.stringify(model));",
+							" ",
+							"if(json.d.Fields.results && json.d.Fields.results.length){",
+							"var elements = \"\";",
+							"elements += visualize(\"Data Model Headers\",\"metadata\",\"Name\",\"AggregationWindow\",\"TimeWindowIdentifier\",\"TimeWindowValue\",\"Status\",\"UsageStatus\",\"LagPeriodIdentifier\",\"LagPeriodValue\");",
+							"elements += visualize(\"Fields\",\"fields\",\"FriendlyName\",\"Name\",\"CatalogType\",\"CatalogName\",\"DatasetName\",\"AnalyticType\",\"AggregationType\");",
+							" ",
+							"pm.visualizer.set(elements, {response: { \"metadata\": [json.d], \"fields\":json.d.Fields.results}});",
+							" ",
+							"function visualize(title,path) {",
+							"    var headers = \"\";",
+							"    var rows = \"\";",
+							"    if(!arguments.length){arguments.length=0};",
+							"    for ( var i = 2; i < arguments.length;i++) {",
+							"        headers += '<th style=\"border:solid 1px;padding:5px;background:#79c6f2;color:black;font-weight:bold\">'+arguments[i]+'</th>';",
+							"        rows += '<td style=\"border:solid 1px;padding:5px;\">{{'+arguments[i]+'}}</td>';",
+							"    }",
+							"    var table = '<span>'+title+'</span><table  bgcolor=\"#FFFFFF\" style=\"border:solid 1px;font-size:12px\"><tr>'+headers+\"{{#each response.\"+path+'}}<tr>'+rows+'</tr>{{/each}}</table>';",
+							"    return table;",
+							"   ",
+							"}",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "If-Match",
+						"type": "text",
+						"value": "{{ETAG}}"
+					}
+				],
+				"url": {
+					"raw": "{{DataModellerHost}}/metadata/v1/model.svc/DataModels('{{MDN}}')",
+					"host": [
+						"{{DataModellerHost}}"
+					],
+					"path": [
+						"metadata",
+						"v1",
+						"model.svc",
+						"DataModels('{{MDN}}')"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
