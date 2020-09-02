@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d4421409-eb12-4323-8ffe-344274b8ee2e",
+		"_postman_id": "1d06a682-7f9a-4dd8-bd02-e8ee8e893d3f",
 		"name": "GeoMatch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3e0eb4ea-e796-4693-a434-805a6374d120",
+						"id": "7a27cc18-e10e-426c-a0bf-8b81e990b9c0",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -89,7 +89,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "bc351796-d610-4596-bada-d7bcf9231aec",
+						"id": "8e30e1d3-3d2d-4d10-b033-78e16647217d",
 						"exec": [
 							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
 							"for (var i = 0; i < resHeaders.length; i++) {\r",
@@ -176,7 +176,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "eabe1284-818e-4887-9ae0-ececa0e5e727",
+						"id": "b98230e5-1439-485a-b609-dac70f202577",
 						"exec": [
 							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
 							"for (var i = 0; i < resHeaders.length; i++) {\r",
@@ -258,7 +258,52 @@
 			"response": []
 		},
 		{
-			"name": "Step 5: Read GeoMatchRadiusSettings Configuration",
+			"name": "Step 5.1: Configure GeoMatch Radius Settings",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "{{LoginTokenT1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"InitialRadius\": {\r\n    \"Radius\": 50,\r\n    \"Status\": \"Assigned\",\r\n    \"CreateBOAssociation\": true,\r\n    \"TreatMultipleMatchesWithSameStatus\": false\r\n  },\r\n  \"IntermediateRadius\": [\r\n    {\r\n      \"Radius\": 100,\r\n      \"Status\": \"Nearby\"\r\n    },\r\n    {\r\n      \"Radius\": 200,\r\n      \"Status\": \"In 200m range\"\r\n    }\r\n  ],\r\n  \"RestAllStatus\": \"Unassigned\",\r\n  \"ManualMappedState\": \"Manually assigned\",\r\n  \"ManualUnmappedState\": \"Manually unassigned\",\r\n  \"AllowedDistanceError\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
+					"protocol": "https",
+					"host": [
+						"{{apphostprefix}}-geomatch-service",
+						"cfapps",
+						"{{landscape}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"geomatch",
+						"Configuration",
+						"GeoMatchRadiusSettings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5.2: Read GeoMatchRadiusSettings Configuration",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -343,7 +388,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "34079cac-4c22-46e6-8ba4-827570798965",
+						"id": "2c3a8895-37c6-43f3-a84c-2162245c8743",
 						"exec": [
 							"var currentutctimestamp = new Date().getTime();",
 							"",
