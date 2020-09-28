@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1d06a682-7f9a-4dd8-bd02-e8ee8e893d3f",
+		"_postman_id": "d4cbd378-cab2-4134-bafd-5989f36ab3e3",
 		"name": "GeoMatch",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7a27cc18-e10e-426c-a0bf-8b81e990b9c0",
+						"id": "d8569922-e2d1-47b4-a98c-a8e15e7b49f0",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -89,7 +89,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8e30e1d3-3d2d-4d10-b033-78e16647217d",
+						"id": "7822f250-6d74-4fcd-8067-f5a464643784",
 						"exec": [
 							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
 							"for (var i = 0; i < resHeaders.length; i++) {\r",
@@ -125,12 +125,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/Spaces",
-					"protocol": "https",
+					"raw": "{{geolocations}}/geolocation/v1/Spaces",
 					"host": [
-						"{{apphostprefix}}-geolocation-runtime",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocations}}"
 					],
 					"path": [
 						"geolocation",
@@ -153,12 +150,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/Spaces/{{point_space_id}}",
-					"protocol": "https",
+					"raw": "{{geolocations}}/geolocation/v1/Spaces/{{point_space_id}}",
 					"host": [
-						"{{apphostprefix}}-geolocation-runtime",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocations}}"
 					],
 					"path": [
 						"geolocation",
@@ -176,7 +170,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b98230e5-1439-485a-b609-dac70f202577",
+						"id": "f29d343a-44b1-4e4d-bd56-520dfc80f36f",
 						"exec": [
 							"let resHeaders = JSON.parse(JSON.stringify(pm.response.headers));\r",
 							"for (var i = 0; i < resHeaders.length; i++) {\r",
@@ -212,12 +206,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations",
-					"protocol": "https",
+					"raw": "{{geolocations}}/geolocation/v1/GeoLocations",
 					"host": [
-						"{{apphostprefix}}-geolocation-runtime",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocations}}"
 					],
 					"path": [
 						"geolocation",
@@ -240,12 +231,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations/{{point_geolocation_id}}",
-					"protocol": "https",
+					"raw": "{{geolocations}}/geolocation/v1/GeoLocations/{{point_geolocation_id}}",
 					"host": [
-						"{{apphostprefix}}-geolocation-runtime",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocations}}"
 					],
 					"path": [
 						"geolocation",
@@ -284,12 +272,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
-					"protocol": "https",
+					"raw": "{{geomatch-service}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
 					"host": [
-						"{{apphostprefix}}-geomatch-service",
-						"cfapps",
-						"{{landscape}}"
+						"{{geomatch-service}}"
 					],
 					"path": [
 						"api",
@@ -303,7 +288,7 @@
 			"response": []
 		},
 		{
-			"name": "Step 5.2: Read GeoMatchRadiusSettings Configuration",
+			"name": "Step 5.2: Read GeoMatch Radius Settings Configuration",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -332,12 +317,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
-					"protocol": "https",
+					"raw": "{{geomatch-service}}/api/v1/geomatch/Configuration/GeoMatchRadiusSettings",
 					"host": [
-						"{{apphostprefix}}-geomatch-service",
-						"cfapps",
-						"{{landscape}}"
+						"{{geomatch-service}}"
 					],
 					"path": [
 						"api",
@@ -362,12 +344,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://appiot-mds.cfapps.{{landscape}}/Things?$filter=_thingType eq {{ThingType}}",
-					"protocol": "https",
+					"raw": "{{appiot-mds}}/Things?$filter=_thingType eq {{ThingType}}",
 					"host": [
-						"appiot-mds",
-						"cfapps",
-						"{{landscape}}"
+						"{{appiot-mds}}"
 					],
 					"path": [
 						"Things"
@@ -388,7 +367,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "2c3a8895-37c6-43f3-a84c-2162245c8743",
+						"id": "8887ae61-eb97-45f6-ba9f-d15fc60749d7",
 						"exec": [
 							"var currentutctimestamp = new Date().getTime();",
 							"",
@@ -423,12 +402,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geomatch-service.cfapps.{{landscape}}/api/v1/geomatch/request",
-					"protocol": "https",
+					"raw": "{{geomatch-service}}/api/v1/geomatch/request",
 					"host": [
-						"{{apphostprefix}}-geomatch-service",
-						"cfapps",
-						"{{landscape}}"
+						"{{geomatch-service}}"
 					],
 					"path": [
 						"api",
@@ -470,12 +446,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geomatch-association-odata.cfapps.{{landscape}}/api/v1/geomatch/odata/LatestGeoMatchAssociationByThings?thingId={{thing_id}}",
-					"protocol": "https",
+					"raw": "{{geomatch-association-odata}}/api/v1/geomatch/odata/LatestGeoMatchAssociationByThings?thingId={{thing_id}}",
 					"host": [
-						"{{apphostprefix}}-geomatch-association-odata",
-						"cfapps",
-						"{{landscape}}"
+						"{{geomatch-association-odata}}"
 					],
 					"path": [
 						"api",

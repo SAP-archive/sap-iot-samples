@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c568f0d4-65e8-4215-be21-af2507073650",
+		"_postman_id": "64b49f5b-96e3-4cc1-80ee-de8b39b65e9d",
 		"name": "Geofence",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -11,7 +11,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "21134e0a-fbab-4b3f-b4c0-457496c78999",
+						"id": "6f0ce0f4-9907-41b5-9484-ea195006165d",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -93,12 +93,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://appiot-mds.cfapps.{{landscape}}/Things?$filter=_thingType eq {{ThingType}}",
-					"protocol": "https",
+					"raw": "{{appiot-mds}}/Things?$filter=_thingType eq {{ThingType}}",
 					"host": [
-						"appiot-mds",
-						"cfapps",
-						"{{landscape}}"
+						"{{appiot-mds}}"
 					],
 					"path": [
 						"Things"
@@ -119,7 +116,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "51f14465-316a-41d6-ae7b-18acf790d730",
+						"id": "129a6a9d-1045-4157-a545-3f71621e71d7",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -142,12 +139,9 @@
 					}
 				],
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-runtime.cfapps.{{landscape}}/geolocation/v1/GeoLocations?GeoLocationName={{GeolocationName}}",
-					"protocol": "https",
+					"raw": "{{geolocations}}/geolocation/v1/GeoLocations?GeoLocationName={{GeolocationName}}",
 					"host": [
-						"{{apphostprefix}}-geolocation-runtime",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocations}}"
 					],
 					"path": [
 						"geolocation",
@@ -170,7 +164,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8f059c29-d5a8-41f8-bbcf-897899074aff",
+						"id": "cefc584a-6ce9-4ff8-9619-c3fcdf32f01a",
 						"exec": [
 							"var furtureutctimestamp = new Date();\r",
 							"furtureutctimestamp.setHours(furtureutctimestamp.getHours()+14);\r",
@@ -206,12 +200,9 @@
 					}
 				},
 				"url": {
-					"raw": "https://{{apphostprefix}}-geolocation-geofence.cfapps.{{landscape}}/geofence/v1/GeoFenceAssignments",
-					"protocol": "https",
+					"raw": "{{geolocation-geofence}}/geofence/v1/GeoFenceAssignments",
 					"host": [
-						"{{apphostprefix}}-geolocation-geofence",
-						"cfapps",
-						"{{landscape}}"
+						"{{geolocation-geofence}}"
 					],
 					"path": [
 						"geofence",
