@@ -137,12 +137,12 @@ async function main() {
 
     let thingTypePayload = {
         Name: `${packageName}:` + model.types[0].id,
-        PropertySets: [
-            {Name: 'silo_status', PropertySetType: `${packageName}:silo_status`},
-            {Name: 'silo_process_data', PropertySetType: `${packageName}:silo_process_data`},
-        ]
+        PropertySets: []
     };
 
+    for(let propertyset of model.types[0].data_sets) {
+      thingTypePayload.PropertySets.push({Name: propertyset, PropertySetType: packageName + ':' + propertyset});
+    };
 
     // create the thing model side of the model
     await client.createPackage(packagePayload);
