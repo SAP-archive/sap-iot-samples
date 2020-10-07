@@ -1,0 +1,40 @@
+{
+	"package": "greenhouse",
+	"version": 1,
+	"capability_data_sets": [{
+		"id": "envData",
+		"properties": [{
+				"id": "temperature",
+				"type": "float",
+        "max": 40,
+        "min": 0
+			},
+			{
+				"id": "humidity",
+				"type": "float",
+        "max": 100,
+        "min": 0
+			},
+			{
+				"id": "light",
+				"type": "float",
+        "max": 10000,
+        "min": 0
+			}
+		]
+	}],
+	"application_data_sets": [{
+		"id": "Default",
+		"properties": [{
+				"id": "serialNumber",
+				"type": "string"
+			}
+		]
+	}],
+	"types": [{
+		"id": "greenhouseType",
+		"data_sets": ["envData",
+			"Default"
+		]
+	}]
+}

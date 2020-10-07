@@ -1,0 +1,56 @@
+{
+	"package": "com.sap.silo0001",
+	"version": 1,
+	"capability_data_sets": [{
+		"id": "silo_status",
+		"properties": [{
+				"id": "temperature",
+				"type": "float",
+        "max": 40,
+        "min": 0
+			},
+			{
+				"id": "humidity",
+				"type": "float",
+        "max": 100,
+        "min": 0
+			},
+			{
+				"id": "latitude",
+				"type": "float",
+        "max": 49.417057,
+        "min": 49.293683
+			},
+			{
+				"id": "longitude",
+				"type": "float",
+        "max": 8.668077,
+        "min": 8.6410001
+			},
+			{
+				"id": "fill_level",
+				"type": "float",
+        "max": 100,
+        "min": 0
+			}
+		]
+	}],
+	"application_data_sets": [{
+		"id": "silo_process_data",
+		"properties": [{
+				"id": "EQUI",
+				"type": "string"
+			},
+			{
+				"id": "HANU",
+				"type": "string"
+			}
+		]
+	}],
+	"types": [{
+		"id": "silo_type_1",
+		"data_sets": ["silo_status",
+			"silo_process_data"
+		]
+	}]
+}
