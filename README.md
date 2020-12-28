@@ -39,3 +39,5 @@ Please feel free to put in a pull request and give us some time to review and re
 
 # License
 Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](https://github.com/SAP-samples/sap-iot-samples/LICENSES/Apache-2.0.txt) in this repository.
+
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/sap-iot-samples)](https://api.reuse.software/info/github.com/SAP-samples/sap-iot-samples)
