@@ -38,4 +38,4 @@ If you have found a material issue with the example please create an [issue](htt
 Please feel free to put in a pull request and give us some time to review and respond.
 
 # License
-Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](LICENSE) in this repository.
+Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved. This project is licensed under the Apache Software License, version 2.0 except as noted otherwise in the [LICENSE](https://github.com/SAP-samples/sap-iot-samples/LICENSES/Apache-2.0.txt) in this repository.
