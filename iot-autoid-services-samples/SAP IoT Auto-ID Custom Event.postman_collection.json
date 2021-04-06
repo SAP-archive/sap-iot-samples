@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "16e59246-c63e-433f-a7c4-f74a58db1d62",
+		"name": "SAP IoT Auto-ID Custom Event",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: GET OAuth Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"LoginTokenT1\", \"Bearer \" + data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "text/plain"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "response_type",
+							"value": "token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{client_id}}",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "{{client_secret}}",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{tenant_name}}.{{uaadomain}}/oauth/token",
+					"protocol": "https",
+					"host": [
+						"{{tenant_name}}",
+						"{{uaadomain}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2.1 Create Event Property Set Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Name\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n    \"PackageName\": \"iot.{{tenant_name}}.{{package}}\",\n    \"Descriptions\": [\n        {\n            \"LanguageCode\": \"en\",\n            \"Description\": \"Rule Output Kanban\"\n        }\n    ],\n    \"DataCategory\": \"EventData\",\n    \"Properties\": [\n        {\n            \"Name\": \"KanbanContainer\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container ID\"\n                }\n            ]\n        },\n        {\n            \"Name\": \"KanbanContainerStatus\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container Status\"\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{eventsService}}/ES/v1/EventPropertySetTypes",
+					"protocol": "https",
+					"host": [
+						"{{eventsService}}"
+					],
+					"path": [
+						"ES",
+						"v1",
+						"EventPropertySetTypes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2.2 Create Event Type",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"Name\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n  \"Descriptions\": [\n    {\n      \"LanguageCode\": \"en\",\n      \"Description\": \"Kanban Rule Event Batch Enabled\"\n    }\n  ],\n  \"IsBatch\": true, \n  \"PackageName\": \"iot.{{tenant_name}}.{{package}}\",\n  \"PropertySets\": [\n    {\n      \"Name\": \"Rule_Output\",\n      \"PropertySetType\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n      \"Descriptions\": [\n        {\n          \"LanguageCode\": \"en\",\n          \"Description\": \"Kanban Output Batch Enabled\"\n        }\n      ]\n    }\n  ],\n  \"Statuses\": [\n    {\n      \"EventStatus\": \"InProcess\"\n    }\n  ],\n  \"Severities\": [\n    {\n      \"EventSeverity\": 2\n    }\n  ],\n  \"Codes\": [\n    {\n      \"EventCode\": \"0\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{eventsService}}/ES/v2/EventTypes",
+					"protocol": "https",
+					"host": [
+						"{{eventsService}}"
+					],
+					"path": [
+						"ES",
+						"v2",
+						"EventTypes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
