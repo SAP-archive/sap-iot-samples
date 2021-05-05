@@ -265,7 +265,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"deviceId\": \"{{DeviceId}}\",\n  \"name\": \"epcis_sensor\",\n  \"sensorTypeId\": \"{{SensorTypeId}}\"\n}",
+					"raw": "{\n  \"alternateId\" : \"epcis_sensor\",\n  \"deviceId\": \"{{DeviceId}}\",\n  \"name\": \"epcis_sensor\",\n  \"sensorTypeId\": \"{{SensorTypeId}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
