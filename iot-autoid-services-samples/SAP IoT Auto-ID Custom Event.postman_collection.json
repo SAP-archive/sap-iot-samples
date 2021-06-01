@@ -83,6 +83,32 @@
 			"response": []
 		},
 		{
+			"name": "Step 1.1 Get Package name",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{LoginTokenT1}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{packageService}}/Package/v1/Packages",
+					"protocol": "https",
+					"host": [
+						"{{packageService}}"
+					],
+					"path": [
+						"Package",
+						"v1",
+						"Packages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Step 2.1 Create Event Property Set Type",
 			"request": {
 				"method": "POST",
@@ -95,7 +121,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"Name\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n    \"PackageName\": \"iot.{{tenant_name}}.{{package}}\",\n    \"Descriptions\": [\n        {\n            \"LanguageCode\": \"en\",\n            \"Description\": \"Rule Output Kanban\"\n        }\n    ],\n    \"DataCategory\": \"EventData\",\n    \"Properties\": [\n        {\n            \"Name\": \"KanbanContainer\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container ID\"\n                }\n            ]\n        },\n        {\n            \"Name\": \"KanbanContainerStatus\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container Status\"\n                }\n            ]\n        }\n    ]\n}",
+					"raw": "{\n    \"Name\": \"{{package}}:Kanban_Rule_Output\",\n    \"PackageName\": \"{{package}}\",\n    \"Descriptions\": [\n        {\n            \"LanguageCode\": \"en\",\n            \"Description\": \"Rule Output Kanban\"\n        }\n    ],\n    \"DataCategory\": \"EventData\",\n    \"Properties\": [\n        {\n            \"Name\": \"KanbanContainer\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container ID\"\n                }\n            ]\n        },\n        {\n            \"Name\": \"KanbanContainerStatus\",\n            \"Type\": \"String\",\n            \"PropertyLength\": \"10\",\n            \"Descriptions\": [\n                {\n                    \"LanguageCode\": \"en\",\n                    \"Description\": \"Kanban Container Status\"\n                }\n            ]\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -130,7 +156,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"Name\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n  \"Descriptions\": [\n    {\n      \"LanguageCode\": \"en\",\n      \"Description\": \"Kanban Rule Event Batch Enabled\"\n    }\n  ],\n  \"IsBatch\": true, \n  \"PackageName\": \"iot.{{tenant_name}}.{{package}}\",\n  \"PropertySets\": [\n    {\n      \"Name\": \"Rule_Output\",\n      \"PropertySetType\": \"iot.{{tenant_name}}.{{package}}:Kanban_Rule_Output\",\n      \"Descriptions\": [\n        {\n          \"LanguageCode\": \"en\",\n          \"Description\": \"Kanban Output Batch Enabled\"\n        }\n      ]\n    }\n  ],\n  \"Statuses\": [\n    {\n      \"EventStatus\": \"InProcess\"\n    }\n  ],\n  \"Severities\": [\n    {\n      \"EventSeverity\": 2\n    }\n  ],\n  \"Codes\": [\n    {\n      \"EventCode\": \"0\"\n    }\n  ]\n}",
+					"raw": "{\n  \"Name\": \"{{package}}:Kanban_Rule_Output\",\n  \"Descriptions\": [\n    {\n      \"LanguageCode\": \"en\",\n      \"Description\": \"Kanban Rule Event Batch Enabled\"\n    }\n  ],\n  \"IsBatch\": true, \n  \"PackageName\": \"{{package}}\",\n  \"PropertySets\": [\n    {\n      \"Name\": \"Rule_Output\",\n      \"PropertySetType\": \"{{package}}:Kanban_Rule_Output\",\n      \"Descriptions\": [\n        {\n          \"LanguageCode\": \"en\",\n          \"Description\": \"Kanban Output Batch Enabled\"\n        }\n      ]\n    }\n  ],\n  \"Statuses\": [\n    {\n      \"EventStatus\": \"InProcess\"\n    }\n  ],\n  \"Severities\": [\n    {\n      \"EventSeverity\": 2\n    }\n  ],\n  \"Codes\": [\n    {\n      \"EventCode\": \"0\"\n    }\n  ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
