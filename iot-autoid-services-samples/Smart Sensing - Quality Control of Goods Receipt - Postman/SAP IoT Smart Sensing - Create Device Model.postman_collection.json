@@ -466,7 +466,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"alternateId\": \"epcis_scanner\",\n  \"gatewayId\": \"2\",\n  \"name\": \"epcis_scanner\"\n}",
+					"raw": "{\n  \"alternateId\": \"router_good_quality\",\n  \"gatewayId\": \"2\",\n  \"name\": \"router_good_quality\",\n  \"authorizations\":[{\n    \"type\": \"router\"\n  }]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
