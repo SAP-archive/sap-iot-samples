@@ -208,7 +208,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"alternateId\": \"epcis_scanner\",\n  \"gatewayId\": \"2\",\n  \"name\": \"epcis_scanner\"\n}",
+					"raw": "{\n  \"alternateId\": \"epcis_scanner\",\n  \"gatewayId\": \"2\",\n  \"name\": \"epcis_scanner\",\n  \"sensors\":[{\n    \"alternateId\" : \"epcis_sensor\",\n    \"name\": \"epcis_sensor\",\n    \"sensorTypeId\": \"{{SensorTypeId}}\"\n    }]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
