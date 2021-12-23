@@ -10,7 +10,7 @@ The context of most of the included examples is to build a solution, that allows
 
 # Prerequisites
 
-1. An SAP Cloud Platform global account with entitlements for SAP IoT or a Cloud Platform Enterprise Agreement in place at your company
+1. An SAP Business Technology Platform global account with entitlements for SAP IoT or a Cloud Platform Enterprise Agreement in place at your company
 2. Other prerequisites are listed with each sample under "Download, Installation, Configuration and Use".
 
 # Download, Installation, Configuration, and Use
