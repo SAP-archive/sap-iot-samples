@@ -1,0 +1,12 @@
+---
+applications:
+  - name: streaming-access-example
+    memory: 1G
+    instances: 1
+    no-route: true
+    health-check-type: process
+    path: target/streaming-access-example-1.0.0.jar
+    env:
+      CONSUMER_GROUP_ID: streaming-access-example
+    services:
+      - kafka
