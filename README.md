@@ -28,7 +28,7 @@ The postman collection and environment in here allow you to create a small sampl
 
 ## iot-streaming-access-samples
 Sample consumer code in here allows you to deploy a cloud foundry java application to start consuming the streaming data from 
-SAP IoT topics (both raw sensor data and processed data with business semantics)
+SAP IoT topics (both raw sensor data and processed data with business semantics). Please note that the feature can only be used with Early Adopter Access.
 
 # References
 To find all developer oriented material please refer to https://community.sap.com/topics/internet-of-things.
