@@ -3,3 +3,23 @@ iot-bootstrap-scripts/package-lock.json
 iot-bootstrap-scripts/certificates
 *.zip
 iot-bootstrap-scripts/default-env.json
+
+#java
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Dependency directories (remove the comment below to include it)
+vendor/
+
+#intellij
+.mvn
+.settings
+.classpath
+.project
+mvnw
+mvnw.cmd
+.idea/
+streaming-access-example.iml
