@@ -2,23 +2,23 @@
 
 ## How to Load and Unload Process with SAP IoT System
 
-* ### [General](#general)
+* [General](#general)
 
-* ### [Prerequisites](#prerequisites)
+* [Prerequisites](#prerequisites)
 
-* ### [Create ODATA service](#create-odata-service)
+* [Create ODATA service](#create-odata-service)
 
-  + #### [Create Entity Types](#create-entity-types)
+  + [Create Entity Types](#create-entity-types)
 
-  + #### [Create Function Imports](#create-function-imports)
+  + [Create Function Imports](#create-function-imports)
 
-  + #### [Generate ODATA Services Class](#generate-odata-services-class)
+  + [Generate ODATA Services Class](#generate-odata-services-class)
 
-* ### [Register services](#register-services)
+* [Register services](#register-services)
 
-* ### [Development](#development)
+* [Development](#development)
 
-* ### [Test](#test)
+* [Test](#test)
 
 
 # General
