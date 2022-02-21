@@ -19,19 +19,19 @@ The context of most of the included examples is to build a solution, that allows
 
 Clone or download the repo to your computer and then follow more detailed installation instructions below per folder in the repo:
 
-## iot-autoid-services-samples
+## [iot-autoid-services-samples](iot-autoid-services-samples)
 Sample codes and utilities for the SAP Internet of Things Smart Sensing.
 
-## iot-bootstrap-scripts
+## [iot-bootstrap-scripts](iot-bootstrap-scripts)
 These scripts allow you to create device and thing/application model based on a definition language for digital twins in json files. You can use these scripts for a first prototype where you want to have the device model and the thing/application model mostly in sync and where you have only one set of measurements and one set of master data. To use these scripts please refer to the tutorials at https://developers.sap.com/tutorials/iot-model-create.html and https://developers.sap.com/tutorials/iot-onboard-device.html to learn how to apply them to your tenant/system.
 
-## iot-location-services-samples
+## [iot-location-services-samples](iot-location-services-samples)
 The postman collection and environment in here allow you to make calls to the location services APIs of SAP IoT. Instructions for how to use them are provided in the tutorials at http://developers.sap.com/tutorials/iot-locations-geofence and http://developers.sap.com/tutorials/iot-locations-geomatch.
 
-## iot-sac-integration-samples
+## [iot-sac-integration-samples](iot-sac-integration-samples)
 The postman collection and environment in here allow you to create a small sample application model from scratch, put some measurement data into it. Then it provides the apis in SAP IoT that allow you to hook up to and share the aggregated data with SAP Analytics Cloud. Instructions how to use the collection are provided in the tutorial at http://developers.sap.com/tutorials/iot-sac-integration-ext.
 
-## iot-streaming-access-samples
+## [iot-streaming-access-samples](iot-streaming-access-samples)
 Sample consumer code in here allows you to deploy a cloud foundry java application to start consuming the streaming data from 
 SAP IoT topics (both raw sensor data and processed data with business semantics). Please note that the feature can only be used with Early Adopter Access.
 
@@ -39,9 +39,11 @@ SAP IoT topics (both raw sensor data and processed data with business semantics)
 To find all developer oriented material please refer to https://community.sap.com/topics/internet-of-things.
 
 # Limitations and Known Issues
-The included samples do not cover all SAP IoT apis and functionalities.
+The included samples do not cover all SAP IoT APIs and functionalities.
 
 # Support and Contributing
+These samples are provided "as-is" basis with detailed documentation on how to use them.
+
 Please use our [community](https://answers.sap.com/tags/73554900100800002247) for questions and answers on the sample code.
 
 If you have found a material issue with the example please create an [issue](https://github.com/SAP-samples/sap-iot-samples/issues) in this GitHub repo.
