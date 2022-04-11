@@ -32,8 +32,9 @@ The postman collection and environment in here allow you to make calls to the lo
 The postman collection and environment in here allow you to create a small sample application model from scratch, put some measurement data into it. Then it provides the apis in SAP IoT that allow you to hook up to and share the aggregated data with SAP Analytics Cloud. Instructions how to use the collection are provided in the tutorial at http://developers.sap.com/tutorials/iot-sac-integration-ext.
 
 ## [iot-streaming-access-samples](iot-streaming-access-samples)
-Sample consumer code in here allows you to deploy a cloud foundry java application to start consuming the streaming data from 
+Samples to deploy a cloud foundry java application to start consuming the streaming data from 
 SAP IoT topics (both raw sensor data and processed data with business semantics). Please note that the feature can only be used with Early Adopter Access.
+The provided samples implement a simple pure Java consumer and a Spring Boot application to consume from the streaming access Kafka and forward the data to a specific hdi-container of your SAP HANA Cloud instance.
 
 # References
 To find all developer oriented material please refer to https://community.sap.com/topics/internet-of-things.
