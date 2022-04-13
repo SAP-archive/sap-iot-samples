@@ -201,7 +201,6 @@ Creating Exception class:
 <img src="./media/image28.png"
 style="width:6.69375in;height:2.23542in" />
 
-![](./media/image29.emf)![](./media/image30.emf)![](./media/image31.emf)![](./media/image32.emf)![](./media/image33.emf)![](./media/image34.emf)![](./media/image35.emf)
 
 # Test
 
