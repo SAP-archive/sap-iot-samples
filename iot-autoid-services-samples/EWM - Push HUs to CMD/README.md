@@ -52,8 +52,7 @@ Create a client with the created profile. Add the client ID into the
 client:
 
 <img src="./media/image5.png"
-style="width:4.558898731408574in"
-height="2.00867782152231in" />
+style="width:4.558898731408574in;height:2.00867782152231in" />
 
 After the creation, the attribute of the service needs to be inserted.
 Insert the Client Secret, the authorization points and the toke point.
@@ -61,8 +60,7 @@ The access settings needs to be Basic, Header field and Client
 Credentials
 
 <img src="./media/image6.png"
-style="width:3.9515234033245843in"
-height="4.412717629046369in" />
+style="width:3.9515234033245843in;height:4.412717629046369in" />
 
 ## PPF Action
 
@@ -95,8 +93,7 @@ A custom class needs to be created at that point. An example coding is
 included in this document:
 
 <img src="./media/image11.png"
-style="width:6.69375in"
-height="2.8979166666666667in" />
+style="width:6.69375in;height:2.8979166666666667in" />
 
 It is also recommended to implement a scheduler:
 
@@ -121,8 +118,7 @@ triggered by the PPF.
 ### Database Table
 
 <img src="./media/image14.png"
-style="width:6.69375in"
-height="3.9520833333333334in" />
+style="width:6.69375in;height:3.9520833333333334in" />
 
 ### View
 
@@ -137,28 +133,23 @@ style="width:6.69375in;height:4.014583333333333in" />
 ### Structure
 
 <img src="./media/image17.png"
-style="width:6.69375in"
-height="1.8965277777777778in" />
+style="width:6.69375in;height:1.8965277777777778in" />
 
 ### Data Elements
 
 <img src="./media/image18.png"
-style="width:4.795596019247594in"
-height="3.15576990376203in" />
+style="width:4.795596019247594in;height:3.15576990376203in" />
 
 <img src="./media/image19.png"
-style="width:4.860673665791776in"
-height="3.6146194225721784in" />
+style="width:4.860673665791776in;height:3.6146194225721784in" />
 
 <img src="./media/image20.png"
-style="width:4.749761592300962in"
-height="3.25668416447944in" />
+style="width:4.749761592300962in;height:3.25668416447944in" />
 
 ### Domain
 
 <img src="./media/image21.png"
-style="width:6.69375in"
-height="4.0055555555555555in" />
+style="width:6.69375in;height:4.0055555555555555in" />
 
 ## Class Libraries
 
@@ -193,8 +184,7 @@ height="4.0055555555555555in" />
 Packing 2 HUs of the inbound delivery 410000013800:
 
 <img src="./media/image29.png"
-style="width:6.69375in"
-height="2.2152777777777777in" />
+style="width:6.69375in;height:2.2152777777777777in" />
 
 <img src="./media/image30.png"
 style="width:6.69375in;height:3.660416666666667in" />
@@ -215,9 +205,7 @@ New entries in SAP IoT:
 style="width:6.69375in;height:3.752083333333333in" />
 
 <img src="./media/image34.png"
-style="width:4.432902449693788in"
-height="2.6972681539807524in" />
+style="width:4.432902449693788in;height:2.6972681539807524in" />
 
 <img src="./media/image35.png"
-style="width:3.7548359580052493in"
-height="3.4291765091863518in" />
+style="width:3.7548359580052493in;height:3.4291765091863518in" />
