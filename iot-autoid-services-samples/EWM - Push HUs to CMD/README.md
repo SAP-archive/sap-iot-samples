@@ -26,6 +26,8 @@
 
 # General
 
+Sample to announce the creation of new EWM Inbound Process Handling Units SAP Internet of Things. The sample, after the creation of new Handling Units in EWM, is invoking the SAP IoT Custom Master Data APIs to create new Object Instances representing the HUs.
+
 # Prerequisites
 
 -   The naming are case sensitive
