@@ -23,7 +23,7 @@
 
 # General
 
-The Purpose of this document is to set up an ODATA service for the SAP Internet of Things to Load and Unload Handling Units.
+The Purpose of this sample is to set up an ODATA service for the SAP Internet of Things to Load and Unload Handling Units.
 
 # Prerequisites
 
