@@ -10,7 +10,7 @@ SAP IoT topics and forward it to SAP HANA Cloud (in this sample only data from t
 ## Steps to deploy the application
 1. Create your ``` kafka2hana ``` hdi-container and define the table ``` MEASURES ``` and the Calculation View (required if you would like to consume data from SAP Analytics Cloud).
 
-   A prebuilt HANA project is available in the folder ``` ./hdi ```. Issue ```cf push ``` to deploy it.
+   A prebuilt HANA project is available in the folder [```./hdi```](hdi). Issue ```cf push``` to deploy it.
 
 
    **HANA table definition:**
