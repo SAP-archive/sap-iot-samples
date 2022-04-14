@@ -1,0 +1,15 @@
+---
+applications:
+  - name: springbootkafkahana
+    host: springbootkafkahana
+    path: target/kafka2hana-1.0.0.jar
+    health-check-type: process
+    memory: 1G
+    env:
+      SPRING_PROFILES_ACTIVE: cloud
+      JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: true}'
+      JBP_CONFIG_COMPONENTS: "{jres: ['com.sap.xs.java.buildpack.jdk.SAPMachineJDK']}"
+      JBP_CONFIG_OPEN_JDK_JRE: "{ jre: { version: 11.+ }}"
+    services:
+      - kafka
+      - iot2hana-data-hdi
