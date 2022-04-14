@@ -1,0 +1,9 @@
+COLUMN TABLE "MEASURES" (
+    "id" BIGINT GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1) NOT NULL,
+    "thingId" NVARCHAR(32),
+    "pst" NVARCHAR(125),
+    "measurement" NVARCHAR(125),
+    "value" FLOAT,
+    "time" TIMESTAMP,
+    PRIMARY KEY ("id")
+)
