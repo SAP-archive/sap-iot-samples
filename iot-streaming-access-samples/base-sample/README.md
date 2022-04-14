@@ -1,5 +1,5 @@
-# Streaming Access Examples
-Sample consumer code in here allows you to deploy a cloud foundry java application to start consuming the streaming data from 
+# Streaming Access Example
+Sample consumer code in here allows you to deploy a cloud foundry java application to start consuming the streaming data from
 SAP IoT topics (both raw sensor data and processed data with business semantics)
 
 ## Prerequisites
