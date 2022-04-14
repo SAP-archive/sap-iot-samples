@@ -8,7 +8,7 @@ SAP IoT topics and forward it to SAP HANA Cloud (in this sample only data from t
 3. You are licensed to SAP HANA Cloud, and created a DB instance in the same Cloud Foundry subaccount and space
 
 ## Steps to deploy the application
-1. Create your ``` kafka2hana ``` hdi-container and define the table ``` MEASURES ``` and the Calculation View (required if you would like to consume data from SAP Analytics Cloud). 
+1. Create your ``` kafka2hana ``` hdi-container and define the table ``` MEASURES ``` and the Calculation View (required if you would like to consume data from SAP Analytics Cloud).
 
    A prebuilt HANA project is available in the folder ``` ./hdi ```. Issue ```cf push ``` to deploy it.
 
@@ -26,8 +26,8 @@ SAP IoT topics and forward it to SAP HANA Cloud (in this sample only data from t
     PRIMARY KEY ("id")
    )
    ```
-   
-  **Note:** If you are changing the columns of the table, it will impact in the *Entity* definition in the path ``` ./src/main/java/com/sap/iot/kafka2hana/model/Measures.java ```
+
+  **Note:** If you are changing the columns of the table, it will impact in the *Entity* definition in the path [```./src/main/java/com/sap/iot/kafka2hana/model/Measures.java```](/src/main/java/com/sap/iot/kafka2hana/model/Measures.java)
 
 2. Go to the home folder and run ``` mvn clean install ```
 3. Login into Cloud Foundry using CLI.  For more information, please refer to the sections [Download and Install the Cloud Foundry Command Line Interface](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/4ef907afb1254e8286882a2bdef0edf4.html?version=Cloud) and [Log On to the Cloud Foundry Environment Using the Cloud Foundry Command Line Interface](https://help.sap.com/products/BTP/65de2977205c403bbc107264b8eccf4b/7a37d66c2e7d401db4980db0cd74aa6b.html?version=Cloud).
