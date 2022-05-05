@@ -1,0 +1,7 @@
+apiVersion: v2
+appVersion: 2.0.2
+description: node-red-iot-addon
+name: noderediotaddon
+type: application
+version: 2.0.2
+icon: https://www.sap.com/content/dam/application/shared/logos/sap-logo-svg.svg

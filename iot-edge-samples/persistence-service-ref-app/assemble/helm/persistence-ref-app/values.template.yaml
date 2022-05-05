@@ -1,0 +1,37 @@
+# --------------------------------------------------------
+# Configurable properties provided by user
+# --------------------------------------------------------
+logLevel: "INFO"
+loadTestProtocol: "MQTT"
+
+# --------------------------------------------------------
+# Properties provided by CLM
+# --------------------------------------------------------
+dockerRegistry: ""
+imagePullSecret: ""
+
+# --------------------------------------------------------
+# Properties that are not exposed
+# --------------------------------------------------------
+containerImageVersion: ${buildVersion}
+containerImageSuffix: "${imageSuffix}"
+imagePullPolicy: "IfNotPresent"
+
+maxInFlight: "5000"
+
+global:
+  resources:
+    _default_istio_proxy:
+      sidecar.istio.io/proxyCPU: 25m
+      sidecar.istio.io/proxyCPULimit: 200m
+      sidecar.istio.io/proxyMemory: 32Mi
+      sidecar.istio.io/proxyMemoryLimit: 256Mi
+
+serviceBindings: >
+  {
+    "bindings":[
+      {"type":"MQTT","id":"sap-iot-gateway","api":"MQTT API URL","url":"tcp://edge-gateway-service.sap-iot-gateway:61658"},
+      {"type":"REST","id":"sap-iot-gateway","api":"REST API URL","url":"http://edge-gateway-service.sap-iot-gateway:61660"},
+      {"type":"REST","id":"sap-iot-persistence","api":"REST API URL","url":"http://persistence-service.sap-iot-persistence:8080"}
+    ]
+  }
