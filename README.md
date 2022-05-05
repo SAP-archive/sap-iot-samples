@@ -35,7 +35,7 @@ Clone or download the repo to your computer and then follow more detailed instal
 
 # References
 
-To find all developer oriented material please refer to https://community.sap.com/topics/internet-of-things.
+To find all developer oriented material please refer to [Internet of Things community topic](https://community.sap.com/topics/internet-of-things).
 
 # Product documentation
 
