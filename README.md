@@ -1,4 +1,14 @@
-[![GitHub language count](https://img.shields.io/github/languages/count/SAP-Samples/iot-edge-samples)](https://github.com/SAP-samples/sap-iot-samples)
+
+[![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples/pulls?q=is%3Aopen+is%3Apr)
+[![Pull Requests](https://img.shields.io/github/issues-pr-closed-raw/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples/pulls?q=is%3Apr+is%3Aclosed)
+[![GitHub tag](https://img.shields.io/github/issues-closed-raw/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/issues?q=is%3Aopen+is%3Apr)
+[![GitHub tag](https://img.shields.io/github/issues-raw/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/issues?q=is%3Apr+is%3Aclosed)
+[![GitHub release](https://img.shields.io/github/release/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/releases/)
+[![GitHub tag](https://img.shields.io/github/tag/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/tags/)
+
+[![GitHub contributors](https://img.shields.io/github/contributors-anon/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples/graphs/contributors)
+[![GitHub language count](https://img.shields.io/github/languages/count/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples)
+
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/sap-iot-samples)](https://api.reuse.software/info/github.com/SAP-samples/sap-iot-samples)
 
