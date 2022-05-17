@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ps-ref-app-stateful
+  labels:
+    app: ps-ref-app
+    service: persistence-service-ref-app
+spec:
+    replicas: 1
+    revisionHistoryLimit: 5
+    selector:
+        matchLabels:
+          app: ps-ref-app
+          service: persistence-service-ref-app
+    serviceName: persistence-service-ref-app
+    updateStrategy:
+        type: RollingUpdate
+    template:
+        metadata:
+            labels:
+                app: ps-ref-app
+                service: persistence-service-ref-app
+            annotations:
+                sidecar.istio.io/proxyCPU: {{ (pluck "sidecar.istio.io/proxyCPU" .Values.global.resources._default_istio_proxy | first) }}
+                sidecar.istio.io/proxyCPULimit: {{ (pluck "sidecar.istio.io/proxyCPULimit" .Values.global.resources._default_istio_proxy | first) }}
+                sidecar.istio.io/proxyMemory: {{ (pluck "sidecar.istio.io/proxyMemory" .Values.global.resources._default_istio_proxy | first) }}
+                sidecar.istio.io/proxyMemoryLimit: {{ (pluck "sidecar.istio.io/proxyMemoryLimit" .Values.global.resources._default_istio_proxy | first) }}
+        spec:
+            securityContext:
+              fsGroup: 1000
+              runAsUser: 1000
+            containers:
+              - name: persistence-service-ref-app
+                image: {{.Values.dockerRegistry }}/persistence-service-ref-app{{ .Values.containerImageSuffix }}:{{ required "A valid value is required for containerImageVersion" .Values.containerImageVersion }}
+                imagePullPolicy: {{ required "A valid value is required for imagePullPolicy." .Values.imagePullPolicy }}
+                env:
+                  - name: LOG_LEVEL
+                    value: "{{ required "A valid value is required for log level" .Values.logLevel  }}"
+                  - name: LOAD_TEST_PROTOCOL
+                    value: "{{ required "A valid value is required for loadTestProtocol" .Values.loadTestProtocol }}"
+                  - name: MAX_IN_FLIGHT
+                    value: "{{ required "A valid value is required for max in flight" .Values.maxInFlight  }}"
+                  - name: SERVICE_BINDINGS
+                    value: {{ required "A valid value is required for serviceBindings" .Values.serviceBindings | quote }}
+            imagePullSecrets:
+              - name: {{ .Values.imagePullSecret }}
