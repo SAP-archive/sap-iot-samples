@@ -6,13 +6,14 @@
 [![GitHub release](https://img.shields.io/github/release/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/releases/)
 [![GitHub tag](https://img.shields.io/github/tag/SAP-Samples/sap-iot-samples)](https://github.com/SAP-Samples/sap-iot-samples/tags/)
 
+[![SAP IoT](https://img.shields.io/badge/SAP%20Internet%20of%20Things-Samples-blue)](https://github.com/SAP-samples/sap-iot-samples)
 [![GitHub contributors](https://img.shields.io/github/contributors-anon/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples/graphs/contributors)
 [![GitHub language count](https://img.shields.io/github/languages/count/SAP-Samples/sap-iot-samples)](https://github.com/SAP-samples/sap-iot-samples)
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP-samples/sap-iot-samples)](https://api.reuse.software/info/github.com/SAP-samples/sap-iot-samples)
 
-# Overview
+# Overview 
 
 With **[SAP Internet of Things](https://www.sap.com/products/iot-data-services.html)** you can receive measurement data from any device, match it to a business process context in SAP IoT and trigger and automate business processes in SAP ERP with **Smart Sensing**, rules and actions.
 
