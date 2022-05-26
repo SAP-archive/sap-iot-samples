@@ -96,7 +96,7 @@ func SendToBusIngressTopic(message string) error {
 }
 
 func send(destination string, message string) error {
-	log.Printf("Sending message '%s' to the destination '%s'", message, destination)
+	log.Printf("Sending message to the destination '%s'", destination)
 	if token := mqttBusClient.Publish(destination, 0, false, message); token.Wait() && token.Error() != nil {
 		log.Printf("Not able to send the message to the destination '%s' due to: %s", destination, token.Error())
 		return token.Error()
