@@ -8,7 +8,7 @@ image:
   name: edge-gateway-service-ref-app
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.1.6"
+  tag: "1.0.0"
 
 nameOverride: ""
 fullnameOverride: ""
