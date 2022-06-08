@@ -1,5 +1,7 @@
 # Testing utility for SAP Edge Gateway Service performance
 
+## Overview
+
 This script sends simulated sensor readings to an SAP Edge Gateway Service running in a Kubernetes cluster and
 measures the throughput and latency. The communication protocol used between this script and the gateway is plain
 MQTT without TLS encryption.
@@ -10,7 +12,13 @@ the main differentiators.
 
 THIS SOFTWARE IS NOT INTENDED FOR PRODUCTION USE.
 
-## The principle of work
+## Product Documentation
+
+Product Documentation for SAP IoT is available as follows:
+
+>[SAP IoT HELP Portal](https://help.sap.com/viewer/p/SAP_IoT)
+
+## Description
 
 The script uses an undocumented feature of the Edge Gateway Service (MQTT). The JSON messages sent by
 an end IoT device to the MQTT gateway can have a property called `"measureMessageId"`. The value of
@@ -81,11 +89,13 @@ If the system under test has lots of computing power, the test script itself cou
 a potential slowdown due to the Python Global Interpreter Lock (GIL), the script can run several worker
 processes if requested via the `--multiprocess N` command line argument.
 
-## Pre-requisites
+## Requirements
 
 This script requires Python 3.8+ for running. While it can execute on the same computer that runs the Edge
 Gateway under test, it would "steal" some computational resources from it. Running the script on a separate
 computer with good network connectivity should provide higher benchmarks.
+
+### SAP IoT Device Model and Configuration
 
 Since the goal is to measure the local performance at the edge and not the SAP IoT cloud, the Edge Gateway Service
 should be configured *not* to forward the measurements to the cloud by default. The corresponding setting
@@ -145,7 +155,16 @@ must be created "by hand" using the Device Connectivity API of SAP IoT. The foll
     }
     ```
 
-## Installation
+## Download and Installation
+
+### Download the sample app
+
+```
+git clone https://github.com/SAP-Samples/iot-edge-samples.git
+cd iot-edge-samples
+```
+
+### Set up the Python virtual environment
 
 As usual, installing it in a virtual Python environment is desirable. If the venv Python package is not installed,
 you can install it under Ubuntu with the command `sudo apt install python3-venv`. It should be pre-installed with
@@ -158,7 +177,7 @@ Active the virtual environment with the command `source venv/bin/activate` under
 
 Install the dependencies into the virtual environment with the command `pip install -r requirements.txt`.
 
-## Running
+## Running the performance test
 
 The virtual Python environment should be activated as described in the section above.
 
@@ -183,7 +202,7 @@ Limits:
 ```
 or something like this. You can also adjust other limits.
 
-## Examples of results
+### Examples of results
 
 The results of some runs on an notebook with an 8-thread Intel Core 7 CPU are provided for comparison.
 
