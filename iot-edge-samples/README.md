@@ -12,6 +12,7 @@ This folder contains all the [SAP IoT](https://help.sap.com/viewer/p/SAP_IoT) Ed
 | Edge Gateway Service Reference Application | This sample is a custom extension service for testing the SAP Edge Gateway Service behavior. | [edge-gateway-app](edge-gateway-service-ref-app)  |
 | Persistence Service Reference Application | This sample is a custom extension service that demonstrates the creation of a custom schema from Persistence Service. The reference app also allows for sending measure data to Edge Gateway Service using a built-in oData API, as well as viewing measure data from Persistence Service. | [persistence-app](persistence-service-ref-app)  |
 | Node Red IoT Add-on | Low code programming [Node Red](https://nodered.org/) dashboard and pre-configured flows capabilities to integrate SAP Edge Gateway Service, SAP Persistence Service, SAP Extension Services, including data consumption pipeline interfaces. | [node-red-addon](node-red-iot-addon)  |
+| Testing utility for SAP Edge Gateway Service performance | Benchmark your hardware and edge cluster settings | [edge-gw-load-test](edge-gw-load-test)  |
 
 ## How to obtain support
 
